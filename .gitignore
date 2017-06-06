@@ -104,5 +104,6 @@ slides/js
 slides/css
 slides/lib
 slides/reveal.js
+slides/plugin
 
 *.feather

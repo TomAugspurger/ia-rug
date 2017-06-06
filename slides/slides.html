@@ -5,7 +5,7 @@
 
 <title>Python for Data Analysis</title>
 
-<meta name="description" content="Python for Data Analysis">    
+<meta name="description" content="Python for Data Analysis">
 
   <meta name="author" content="Tom Augspurger" />
 
@@ -15,7 +15,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <link rel="stylesheet" href="css/reveal.css">
-  <link rel="stylesheet" href="css/theme/beige.css" id="theme">
+  <link rel="stylesheet" href="css/theme/black.css" id="theme">
+<link rel="stylesheet" href="style.css">
 
 
 <!-- For syntax highlighting -->
@@ -50,36 +51,129 @@
 </section>  
 
 
-<section id="topics" class="level2">
-<h2>Topics</h2>
+<section id="topics" class="level3">
+<h3>Topics</h3>
 <ul>
 <li>Jupyter: Cross-language project supporting interactive data science</li>
 <li>Pandas: High-performance data structures for data analysis in Python</li>
 <li>Dask: Flexible parallel computing</li>
 </ul>
+<aside class="notes">
+<p>This is a note</p>
+</aside>
 </section>
-<section id="jupyter" class="level2">
-<h2>Jupyter</h2>
-<ul>
-<li>Born out of IPython</li>
-</ul>
+<section id="jupyter" class="level3">
+<h3>Jupyter</h3>
+<p>IPython: an interactive python shell <img src="figures/ipython-6-screenshot.png" /></p>
 </section>
-<section id="jupyter-messaging-protocol" class="level2">
-<h2>Jupyter Messaging Protocol</h2>
-<ul>
-<li>Separates a kernel from a front-end</li>
-</ul>
+<section id="jupyter-notebook" class="level3">
+<h3>Jupyter Notebook</h3>
 <figure>
-<img src="figures/frontend-kernel.png" />
+<img src="figures/jupyter-notebook-default.png" />
 </figure>
-</section>
-<section id="jupyter-notebook" class="level2">
-<h2>Jupyter Notebook</h2>
 <ul>
 <li>A web application</li>
 <li>More importantly, a file format</li>
 <li>Enables things like nbviewer</li>
 </ul>
+</section>
+<section id="nbviewer" class="level3">
+<h3>nbviewer</h3>
+<iframe data-src="http://nbviewer.jupyter.org/" width="800" height="800">
+</iframe>
+</section>
+<section id="jupyter-messaging-protocol" class="level3">
+<h3>Jupyter Messaging Protocol</h3>
+<figure>
+<img src="figures/frontend-kernel.png" style="width:50.0%" />
+</figure>
+<p>Kernels for &gt; 50 languages (including R)</p>
+</section>
+<section id="irkernel" class="level3">
+<h3>IRKernel</h3>
+<p><em>Demo</em></p>
+</section>
+<section id="section" class="level3">
+<h3><img src="figures/pandas_logo.png" /></h3>
+<ul>
+<li>Implements high-performance data structures for tabular data</li>
+<li>Many familiar operations (groupby, join)</li>
+<li>Handles missing data</li>
+</ul>
+</section>
+<section id="dask" class="level3">
+<h3>Dask</h3>
+<blockquote>
+<ul>
+<li>Python has a great, diverse ecosystem for scientific computing</li>
+<li>but it's mostly restricted to a single core</li>
+</ul>
+</blockquote>
+</section>
+<section id="collections-dags-and-schedulers" class="level3">
+<h3>Collections, DAGs, and schedulers</h3>
+<figure>
+<img src="figures/collections-schedulers.png" />
+</figure>
+<ul>
+<li>Take a familiar API</li>
+<li>Translate operations to a task graph</li>
+<li>Have smart schedulers execute the tasks</li>
+</ul>
+</section>
+<section id="dask.array" class="level3">
+<h3>Dask.array</h3>
+<p><img src="figures/dask-array.svg" width="60%"></p>
+<pre><code># NumPy code
+import numpy as np
+x = np.random.random((1000, 1000))
+u, s, v = np.linalg.svd(x.dot(x.T))
+
+# Dask.array code
+import dask.array as da
+x = da.random.random((100000, 100000), chunks=(1000, 1000))
+u, s, v = da.linalg.svd(x.dot(x.T))</code></pre>
+</section>
+<section id="dask.dataframe" class="level3">
+<h3>Dask.DataFrame</h3>
+<p><img src="figures/dask-dataframe-inverted.svg" width="30%"></p>
+<pre><code>import pandas as pd
+df = pd.read_csv(&#39;myfile.csv&#39;, parse_dates=[&#39;timestamp&#39;])
+df.groupby(df.timestamp.dt.hour).value.mean()
+
+import dask.dataframe as dd
+df = dd.read_csv(&#39;hdfs://myfiles.*.csv&#39;, parse_dates=[&#39;timestamp&#39;])
+df.groupby(df.timestamp.dt.hour).value.mean().compute()</code></pre>
+</section>
+<section id="fine-grained-python-code" class="level3">
+<h3>Fine Grained Python Code</h3>
+<pre><code>.</code></pre>
+<hr>
+<pre><code>results = {}
+
+for a in A:
+    for b in B:
+        if a &lt; b:
+            results[a, b] = f(a, b)
+        else:
+            results[a, b] = g(a, b)
+
+.</code></pre>
+</section>
+<section id="fine-grained-python-code-1" class="level3">
+<h3>Fine Grained Python Code</h3>
+<pre><code>from dask import delayed, compute</code></pre>
+<hr>
+<pre><code>results = {}
+
+for a in A:
+    for b in B:
+        if a &lt; b:
+            results[a, b] = delayed(f)(a, b)  # lazily construct graph
+        else:
+            results[a, b] = delayed(g)(a, b)  # without structure
+
+results = compute(results)  # trigger all computation</code></pre>
 </section>
 </div>
 
@@ -96,10 +190,10 @@
     center: false,
 
   // available themes are in /css/theme
-      theme: Reveal.getQueryHash().theme || 'beige', 
+      theme: Reveal.getQueryHash().theme || 'black', 
   
   // default/cube/page/concave/zoom/linear/fade/none
-      transition: Reveal.getQueryHash().transition || 'linear',
+      transition: Reveal.getQueryHash().transition || 'none',
   
   // Optional libraries used to extend on reveal.js
   dependencies: [

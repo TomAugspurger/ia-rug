@@ -1,0 +1,19 @@
+.reveal h1 {
+    font-size: 1.5em
+}
+
+.reveal h2 {
+    font-size: 1.1em
+}
+
+.reveal h3 {
+    font-size: 1em
+}
+
+.reveal section img {
+    border: none;
+}
+
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+    text-transform: none;
+}
