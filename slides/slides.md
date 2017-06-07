@@ -16,6 +16,24 @@ This is a note
 
 </aside>
 
+### Goals
+
+- *Not* to teach you Python
+- Explore cross-language tools
+- Compare and contrast, learn from each other
+
+### A bit of History
+
+- First release in 1991
+- Popular as a "glue" language
+- Benefiting from the rise of data science
+
+### Trends
+
+<section data-background-color="#fefefe">
+  ![](figures/trends.svg)
+</section>
+
 
 ### Jupyter
 
@@ -49,6 +67,10 @@ Kernels for > 50 languages (including R)
 - Implements high-performance data structures for tabular data
 - Many familiar operations (groupby, join)
 - Handles missing data
+
+### Pandas
+
+*Demo*
 
 ### Dask
 
