@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 
-<title>Python for Data Analysis</title>
+<title>Jupyter and Python for Data Analysis</title>
 
-<meta name="description" content="Python for Data Analysis">
+<meta name="description" content="Jupyter and Python for Data Analysis">
 
   <meta name="author" content="Tom Augspurger" />
 
@@ -43,7 +43,7 @@
 <div class="slides">
 
 <section>
-<h1>Python for Data Analysis</h1>
+<h1>Jupyter and Python for Data Analysis</h1>
 <h3>Tom Augspurger</h3>
 <p>
 <h4>2017-06-08</h4>
@@ -54,6 +54,7 @@
 <section id="topics" class="level3">
 <h3>Topics</h3>
 <ul>
+<li>Python: Brief overview</li>
 <li>Jupyter: Cross-language project supporting interactive data science</li>
 <li>Pandas: High-performance data structures for data analysis in Python</li>
 <li>Dask: Flexible parallel computing</li>
@@ -91,7 +92,7 @@
 <section id="jupyter-notebook" class="level3">
 <h3>Jupyter Notebook</h3>
 <figure>
-<img src="figures/jupyter-notebook-default.png" />
+<img src="figures/jupyter-notebook-default.png" style="width:70.0%" />
 </figure>
 <ul>
 <li>A web application</li>
@@ -147,59 +148,67 @@
 <li>Have smart schedulers execute the tasks</li>
 </ul>
 </section>
-<section id="dask.array" class="level3">
-<h3>Dask.array</h3>
-<p><img src="figures/dask-array.svg" width="60%"></p>
-<pre><code># NumPy code
-import numpy as np
-x = np.random.random((1000, 1000))
-u, s, v = np.linalg.svd(x.dot(x.T))
-
-# Dask.array code
-import dask.array as da
-x = da.random.random((100000, 100000), chunks=(1000, 1000))
-u, s, v = da.linalg.svd(x.dot(x.T))</code></pre>
+<section id="section-1" class="level3">
+<h3></h3>
+<p>Dask Collections Build Task Graphs</p>
+<hr />
+<p>Dask Schedulers Execute Task Graphs</p>
 </section>
-<section id="dask.dataframe" class="level3">
-<h3>Dask.DataFrame</h3>
-<p><img src="figures/dask-dataframe-inverted.svg" width="30%"></p>
-<pre><code>import pandas as pd
-df = pd.read_csv(&#39;myfile.csv&#39;, parse_dates=[&#39;timestamp&#39;])
-df.groupby(df.timestamp.dt.hour).value.mean()
+<section id="d-array" class="level3">
+<h3>1D-Array</h3>
+<p><img src="figures/array-1d.svg"></p>
+<pre><code>&gt;&gt;&gt; np.ones((15,))
+array([ 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.])
 
-import dask.dataframe as dd
-df = dd.read_csv(&#39;hdfs://myfiles.*.csv&#39;, parse_dates=[&#39;timestamp&#39;])
-df.groupby(df.timestamp.dt.hour).value.mean().compute()</code></pre>
+&gt;&gt;&gt; x = da.ones((15,), chunks=(5,))</code></pre>
 </section>
-<section id="fine-grained-python-code" class="level3">
-<h3>Fine Grained Python Code</h3>
-<pre><code>.</code></pre>
-<hr>
-<pre><code>results = {}
-
-for a in A:
-    for b in B:
-        if a &lt; b:
-            results[a, b] = f(a, b)
-        else:
-            results[a, b] = g(a, b)
-
-.</code></pre>
+<section id="d-array-1" class="level3">
+<h3>1D-Array</h3>
+<p><img src="figures/array-1d-sum.svg" width="30%"></p>
+<pre><code>x = da.ones((15,), chunks=(5,))
+x.sum()</code></pre>
 </section>
-<section id="fine-grained-python-code-1" class="level3">
-<h3>Fine Grained Python Code</h3>
-<pre><code>from dask import delayed, compute</code></pre>
-<hr>
-<pre><code>results = {}
-
-for a in A:
-    for b in B:
-        if a &lt; b:
-            results[a, b] = delayed(f)(a, b)  # lazily construct graph
-        else:
-            results[a, b] = delayed(g)(a, b)  # without structure
-
-results = compute(results)  # trigger all computation</code></pre>
+<section id="nd-array---sum" class="level3">
+<h3>ND-Array - Sum</h3>
+<p><img src="figures/array-sum.svg"></p>
+<pre><code>x = da.ones((15, 15), chunks=(5, 5))
+x.sum(axis=0)</code></pre>
+</section>
+<section id="nd-array---transpose" class="level3">
+<h3>ND-Array - Transpose</h3>
+<p><img src="figures/array-xxT.svg"></p>
+<pre><code>x = da.ones((15, 15), chunks=(5, 5))
+x + x.T</code></pre>
+</section>
+<section id="nd-array---matrix-multiply" class="level3">
+<h3>ND-Array - Matrix Multiply</h3>
+<p><img src="figures/array-xdotxT.svg"></p>
+<pre><code>x = da.ones((15, 15), chunks=(5, 5))
+x.dot(x.T + 1)</code></pre>
+</section>
+<section id="nd-array---compound-operations" class="level3">
+<h3>ND-Array - Compound Operations</h3>
+<p><img src="figures/array-xdotxT-mean.svg"></p>
+<pre><code>x = da.ones((15, 15), chunks=(5, 5))
+x.dot(x.T + 1) - x.mean()</code></pre>
+</section>
+<section id="nd-array---compound-operations-1" class="level3">
+<h3>ND-Array - Compound Operations</h3>
+<p><img src="figures/array-xdotxT-mean-std.svg"></p>
+<pre><code>import dask.array as da
+x = da.ones((15, 15), chunks=(5, 5))
+y = (x.dot(x.T + 1) - x.mean()).std()</code></pre>
+</section>
+<section id="summary" class="level3">
+<h3>Summary</h3>
+<ul>
+<li>Jupyter for cross-language tools</li>
+<li>Pandas for high-performance data-structures</li>
+<li>Dask for parallelizing existing python workflows</li>
+</ul>
+</section>
+<section id="thanks" class="level3">
+<h3>Thanks!</h3>
 </section>
 </div>
 

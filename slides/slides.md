@@ -1,11 +1,13 @@
 ---
-title: Python for Data Analysis
+title: Jupyter and Python for Data Analysis
 author: Tom Augspurger
+affiliation: Continuum Analytics
 date: 2017-06-08
 ---
 
 ### Topics
 
+- Python: Brief overview
 - Jupyter: Cross-language project supporting interactive data science
 - Pandas: High-performance data structures for data analysis in Python
 - Dask: Flexible parallel computing
@@ -42,7 +44,7 @@ IPython: an interactive python shell
 
 ### Jupyter Notebook
 
-![](figures/jupyter-notebook-default.png)
+![](figures/jupyter-notebook-default.png){width=70%}
 
 - A web application
 - More importantly, a file format
@@ -85,62 +87,76 @@ Kernels for > 50 languages (including R)
 - Translate operations to a task graph
 - Have smart schedulers execute the tasks
 
-### Dask.array
+###
 
-<img src="figures/dask-array.svg" width="60%">
+Dask Collections Build Task Graphs
 
-    # NumPy code
-    import numpy as np
-    x = np.random.random((1000, 1000))
-    u, s, v = np.linalg.svd(x.dot(x.T))
-    
-    # Dask.array code
+---
+
+Dask Schedulers Execute Task Graphs
+
+### 1D-Array
+
+<img src="figures/array-1d.svg">
+
+    >>> np.ones((15,))
+    array([ 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.])
+
+    >>> x = da.ones((15,), chunks=(5,))
+
+
+### 1D-Array
+
+<img src="figures/array-1d-sum.svg" width="30%">
+
+    x = da.ones((15,), chunks=(5,))
+    x.sum()
+
+
+### ND-Array - Sum
+
+<img src="figures/array-sum.svg">
+
+    x = da.ones((15, 15), chunks=(5, 5))
+    x.sum(axis=0)
+
+
+### ND-Array - Transpose
+
+<img src="figures/array-xxT.svg">
+
+    x = da.ones((15, 15), chunks=(5, 5))
+    x + x.T
+
+
+### ND-Array - Matrix Multiply
+
+<img src="figures/array-xdotxT.svg">
+
+    x = da.ones((15, 15), chunks=(5, 5))
+    x.dot(x.T + 1)
+
+
+### ND-Array - Compound Operations
+
+<img src="figures/array-xdotxT-mean.svg">
+
+    x = da.ones((15, 15), chunks=(5, 5))
+    x.dot(x.T + 1) - x.mean()
+
+
+### ND-Array - Compound Operations
+
+<img src="figures/array-xdotxT-mean-std.svg">
+
     import dask.array as da
-    x = da.random.random((100000, 100000), chunks=(1000, 1000))
-    u, s, v = da.linalg.svd(x.dot(x.T))
+    x = da.ones((15, 15), chunks=(5, 5))
+    y = (x.dot(x.T + 1) - x.mean()).std()
 
-### Dask.DataFrame
+### Summary
 
-<img src="figures/dask-dataframe-inverted.svg" width="30%">
+- Jupyter for cross-language tools
+- Pandas for high-performance data-structures
+- Dask for parallelizing existing python workflows
 
-    import pandas as pd
-    df = pd.read_csv('myfile.csv', parse_dates=['timestamp'])
-    df.groupby(df.timestamp.dt.hour).value.mean()
-
-    import dask.dataframe as dd
-    df = dd.read_csv('hdfs://myfiles.*.csv', parse_dates=['timestamp'])
-    df.groupby(df.timestamp.dt.hour).value.mean().compute()
-
-### Fine Grained Python Code
-
-    .
-
-<hr>
-
-    results = {}
-
-    for a in A:
-        for b in B:
-            if a < b:
-                results[a, b] = f(a, b)
-            else:
-                results[a, b] = g(a, b)
-
-    .
-
-### Fine Grained Python Code
-
-    from dask import delayed, compute
-
-<hr>
-
-    results = {}
-
-    for a in A:
-        for b in B:
-            if a < b:
-                results[a, b] = delayed(f)(a, b)  # lazily construct graph
-            else:
-                results[a, b] = delayed(g)(a, b)  # without structure
-
-    results = compute(results)  # trigger all computation
+### Thanks!
