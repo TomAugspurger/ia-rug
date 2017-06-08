@@ -29,6 +29,9 @@ This is a note
 - First release in 1991
 - Popular as a "glue" language
 - Benefiting from the rise of data science
+- Powerful data-structures (NumPy, pandas)
+- Visualization (matplotlib)
+- Statistics and Machine Learning (scikit-learn, statsmodels, PyMC3, tensorflow, ...)
 
 ### Trends
 
@@ -86,6 +89,7 @@ Kernels for > 50 languages (including R)
 - Take a familiar API
 - Translate operations to a task graph
 - Have smart schedulers execute the tasks
+- Built on years of work by Python's networking community
 
 ###
 
