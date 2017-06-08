@@ -23,9 +23,6 @@ date: 2017-06-08
 - First release in 1991
 - Popular as a "glue" language
 - Benefiting from the rise of data science
-- Powerful data-structures (NumPy, pandas)
-- Visualization (matplotlib)
-- Statistics and Machine Learning (scikit-learn, statsmodels, PyMC3, tensorflow, ...)
 
 ### Trends
 
@@ -33,6 +30,11 @@ date: 2017-06-08
   ![](figures/trends.svg)
 </section>
 
+### Scientific Computing
+
+- Powerful data-structures (NumPy, pandas)
+- Visualization (matplotlib)
+- Statistics and Machine Learning (scikit-learn, statsmodels, PyMC3, tensorflow, ...)
 
 ### Jupyter
 
