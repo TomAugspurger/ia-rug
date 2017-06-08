@@ -12,12 +12,6 @@ date: 2017-06-08
 - Pandas: High-performance data structures for data analysis in Python
 - Dask: Flexible parallel computing
 
-<aside class="notes">
-
-This is a note
-
-</aside>
-
 ### Goals
 
 - *Not* to teach you Python
